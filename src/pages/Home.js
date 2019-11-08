@@ -4,10 +4,9 @@ import React, {Component} from 'react';
 import axios from 'axios'
 import plus from '../plus.svg'
 
-
 const Item = Popover.Item;
-
-const myImg = () => <img src={plus} className="am-icon am-icon-xs" alt="" />;
+const myImg = () => <img src={plus} className="am-icon am-icon-xs" alt="xxx" />;
+Toast.config({ mask: false })
 
 export default class Home extends Component {
   constructor(props) {
@@ -29,7 +28,6 @@ export default class Home extends Component {
   onSelect = (opt) => {
     const { value } = opt.props
     if (value === 'createImage') {
-      // console.log(HashRouter, Route)
       this.props.history.push('createForm')
     }
     this.setState({
@@ -103,9 +101,8 @@ export default class Home extends Component {
         </NavBar>
         <Tabs
           tabs={this.state.tabList}
-          initialPage={0}
-          onChange={(tab, index) => { console.log('onChange', index, tab); }}
-          onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}>
+          swipeable={false}
+          initialPage={0}>
           {
             this.state.tabList.map(item => (
               <List key={item.sub}>
@@ -122,7 +119,7 @@ export default class Home extends Component {
                         <img style={{
                           width: '100%',
                           height: '200px'
-                        }} src={subItem.url}/>
+                        }} src={subItem.url} alt="xxx"/>
                       </Card.Body>
                     </Card>
                   ))
