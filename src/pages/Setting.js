@@ -1,19 +1,16 @@
 /*
  * @LastEditors: huangfengrui
- * @LastEditTime: 2019-12-02 10:45:52
+ * @LastEditTime: 2019-12-02 16:16:56
  * @Author: huangfengrui
  * @Date: 2019-12-02 10:45:35
  * @Description: 
  */
 import React, {Component} from 'react'
 
-import { Button, List, Radio, NavBar, Icon, ImagePicker, Toast } from 'antd-mobile';
+import { Button, NavBar, Icon, Toast, WingBlank, WhiteSpace, Picker, List } from 'antd-mobile';
+import { updateData, cityData } from '@/utils/api'
 
-import axios from 'axios'
-
-const RadioItem = Radio.RadioItem;
-
-Toast.config({ mask: false })
+// Toast.config({ mask: false })
 
 export default class Setting extends Component {
   // constructor (props) {
@@ -21,18 +18,28 @@ export default class Setting extends Component {
   // }
   state = {
     value: 'GZ',
-    columns: {
-      GZ: '广州',
-      SZ: '深圳',
-      ST: '汕头'
-    },
+    cityList: [],
     files: [],
-    multiple: true
+    multiple: true,
+    city: []
   };
+  componentDidMount () {
+    this.getRelation()
+  }
+  getRelation = async () => {
+    const data = await cityData()
+    this.setState({
+      cityList: [{
+        label: '全部',
+        value: ''
+      }, ...data],
+      city: ['']
+    })
+  }
   onFileChange = (files, type, index) => {
     console.log(files, type, index);
     this.setState({
-      files,
+      files
     });
   }
   onChange = (value) => {
@@ -41,36 +48,53 @@ export default class Setting extends Component {
     });
   }
   onSubmit = () => {
-    this.state.files.forEach(item => {
-      let formData = new FormData();
-      formData.append("file", item.file)
-      formData.append("name", this.state.value)
-      axios.post('/upload', formData).then(res => {
-        const { code, message } = res.data
-        if (code === '0') {
-          Toast.success(message)
-        } else {
-          Toast.info(message)
-        }
-        this.props.history.go(-1)
-      })
+    Toast.loading('正在更新', 0)
+    updateData({
+      city: this.state.city[0]
+    }).then(() => {
+      Toast.hide()
+      Toast.success('更新成功')
+    })
+  }
+  onChangeCity = (value) => {
+    this.setState({
+      city: value
     })
   }
   render() {
-    const { value, columns, files } = this.state;
-    const data = Object.keys(columns).map(item => ({
-      value: item,
-      label: columns[item]
-    }))
+    // const { value, columns, files } = this.state;
+    // const data = Object.keys(columns).map(item => ({
+    //   value: item,
+    //   label: columns[item]
+    // }))
+    const { cityList, city } = this.state
     return (
       <div>
         <NavBar
           mode="light"
           icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.go(-1)}>
-          添加图片
+          Setting
         </NavBar>
-        <List renderHeader={() => '选择城市'}>
+        <WhiteSpace/>
+        <WhiteSpace/>
+        <WingBlank>
+          <p>{city}</p>
+          <Picker
+            data={cityList}
+            value={city}
+            cols={1}
+            onChange={this.onChangeCity}
+          >
+            <List.Item arrow="horizontal">站点</List.Item>
+          </Picker>
+          <WhiteSpace/>
+          <WhiteSpace/>
+          <WhiteSpace/>
+          <WhiteSpace/>
+          <Button type="primary" onClick={this.onSubmit}>更新</Button>
+        </WingBlank>
+        {/* <List renderHeader={() => '选择城市'}>
           {data.map(i => (
             <RadioItem key={i.value} checked={value === i.value} onChange={() => this.onChange(i.value)}>
               {i.label}
@@ -85,8 +109,7 @@ export default class Setting extends Component {
             selectable={files.length < 4}
             multiple={this.state.multiple}
           />
-        </List>
-        <Button type="primary" onClick={this.onSubmit}>提交</Button>
+        </List> */}
       </div>
     );
   }

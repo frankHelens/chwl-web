@@ -1,6 +1,6 @@
 /*
  * @LastEditors: huangfengrui
- * @LastEditTime: 2019-12-02 11:30:09
+ * @LastEditTime: 2019-12-02 15:46:10
  * @Author: huangfengrui
  * @Date: 2019-12-02 11:00:06
  * @Description: 
@@ -13,7 +13,7 @@ console.log(process.env.BASE_URL)
 
 const service = axios.create({
   // 设置超时时间
-  timeout: 60000,
+  // timeout: 60000,
   // baseURL: process.env.BASE_URL
   baseURL: '/api/'
 })
