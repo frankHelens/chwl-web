@@ -25,8 +25,8 @@ export default class Home extends Component {
   }
   onSelect = (opt) => {
     const { value } = opt.props
-    if (value === 'createImage') {
-      this.props.history.push('createForm')
+    if (value === 'setting') {
+      this.props.history.push('setting')
     }
     this.setState({
       visible: false,
@@ -71,7 +71,7 @@ export default class Home extends Component {
               overlayStyle={{ color: 'currentColor' }}
               visible={this.state.visible}
               overlay={[
-                (<Item key="4" value="createImage" icon={myImg()} data-seed="logId">添加图片</Item>)
+                (<Item key="4" value="setting" icon={myImg()} data-seed="logId">设置</Item>)
               ]}
               align={{
                 overflow: { adjustY: 0, adjustX: 0 },
