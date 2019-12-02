@@ -1,9 +1,5 @@
-const { override, fixBabelImports } = require('customize-cra');
-
-const rewiredMap = () => config => {
-  config.devtool = config.mode === 'development' ? 'cheap-module-source-map' : false;
-  return config;
-};
+const { override, fixBabelImports, addWebpackAlias } = require('customize-cra');
+const path = require('path');
 
 process.env.GENERATE_SOURCEMAP = "false";
 
@@ -11,6 +7,10 @@ module.exports = override(
   fixBabelImports('import', {
     libraryName: 'antd-mobile',
     style: 'css',
-  }),
-  rewiredMap()
+  }),// 配置别名
+  addWebpackAlias({
+    '@': path.resolve(__dirname, 'src'),
+    'components': path.resolve(__dirname, 'src/components'),
+    'pages': path.resolve(__dirname, 'src/pages')
+  })
 );
