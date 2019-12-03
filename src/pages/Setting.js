@@ -7,7 +7,7 @@
  */
 import React, {Component} from 'react'
 
-import { Button, NavBar, Icon, Toast, WingBlank, WhiteSpace, Picker, List } from 'antd-mobile';
+import { Button, Toast, WingBlank, WhiteSpace, Picker, List } from 'antd-mobile';
 import { updateData, cityData } from '@/utils/api'
 
 // Toast.config({ mask: false })
@@ -19,9 +19,26 @@ export default class Setting extends Component {
   state = {
     value: 'GZ',
     cityList: [],
+    numList: [{
+      value: '1',
+      label: '10条'
+    }, {
+      value: '2',
+      label: '20条'
+    }, {
+      value: '3',
+      label: '30条'
+    }, {
+      value: '4',
+      label: '40条'
+    }, {
+      value: '5',
+      label: '50条'
+    }],
     files: [],
     multiple: true,
-    city: []
+    city: [],
+    pageNum: ['1']
   };
   componentDidMount () {
     this.getRelation()
@@ -50,7 +67,8 @@ export default class Setting extends Component {
   onSubmit = () => {
     Toast.loading('正在更新', 0)
     updateData({
-      city: this.state.city[0]
+      city: this.state.city[0],
+      pageNum: this.state.pageNum[0]
     }).then(() => {
       Toast.hide()
       Toast.success('更新成功')
@@ -61,13 +79,18 @@ export default class Setting extends Component {
       city: value
     })
   }
+  onChangePageNum = (value) => {
+    this.setState({
+      pageNum: value
+    })
+  }
   render() {
     // const { value, columns, files } = this.state;
     // const data = Object.keys(columns).map(item => ({
     //   value: item,
     //   label: columns[item]
     // }))
-    const { cityList, city } = this.state
+    const { cityList, city, numList, pageNum } = this.state
     return (
       <div>
         <WhiteSpace/>
@@ -84,26 +107,20 @@ export default class Setting extends Component {
           </Picker>
           <WhiteSpace/>
           <WhiteSpace/>
+          <Picker
+            data={numList}
+            value={pageNum}
+            cols={1}
+            onChange={this.onChangePageNum}
+          >
+            <List.Item arrow="horizontal">站点</List.Item>
+          </Picker>
+          <WhiteSpace/>
+          <WhiteSpace/>
           <WhiteSpace/>
           <WhiteSpace/>
           <Button type="primary" onClick={this.onSubmit}>更新</Button>
         </WingBlank>
-        {/* <List renderHeader={() => '选择城市'}>
-          {data.map(i => (
-            <RadioItem key={i.value} checked={value === i.value} onChange={() => this.onChange(i.value)}>
-              {i.label}
-            </RadioItem>
-          ))}
-        </List>
-        <List renderHeader={() => '上传图片'}>
-          <ImagePicker
-            files={files}
-            onChange={this.onFileChange}
-            onImageClick={(index, fs) => console.log(index, fs)}
-            selectable={files.length < 4}
-            multiple={this.state.multiple}
-          />
-        </List> */}
       </div>
     );
   }

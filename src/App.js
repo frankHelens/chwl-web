@@ -1,4 +1,4 @@
-import {HashRouter, Route, Switch, Link} from 'react-router-dom';
+import { HashRouter, Route, Link, Switch } from 'react-router-dom';
 import React, { Component } from 'react';
 import { TabBar } from 'antd-mobile';
 
@@ -13,32 +13,32 @@ export default class App extends Component {
     selectedTab: 'home',
     tabList: [{
       name: 'home',
-      label: '首页'
+      label: '首页',
+      url: '/'
     }, {
       name: 'set',
-      label: '设置'
+      label: '设置',
+      url: '/setting'
     }]
   }
   render() {
     const { tabList } = this.state
     return (
-      <div>
-        {/* <HashRouter>
-          <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/Setting" component={Setting}/>
-          </Switch>
-          </HashRouter> */}
-        <TabBar>
+      <HashRouter>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/setting" component={Setting} />
+        </Switch>
+        <TabBar noRenderContent={false}>
           {
             tabList.map(item => (
               <TabBar.Item
-                icon={                    
-                  <span className={`iconfont icon${item.name}`} style={{fontSize: '22px'}}>
-                  </span>
+                icon={
+                  <Link to={item.url} className={`iconfont icon${item.name}`} style={{ fontSize: '22px' }}>
+                  </Link>
                 }
                 selectedIcon={
-                  <span className={`iconfont icon${item.name}-active`} style={{fontSize: '22px'}}></span>
+                  <Link to={item.url} className={`iconfont icon${item.name}-active`} style={{ fontSize: '22px' }}></Link>
                 }
                 title={item.label}
                 key={item.name}
@@ -48,15 +48,11 @@ export default class App extends Component {
                     selectedTab: item.name,
                   });
                 }}
-              >
-              {
-                item.name === 'home' ?  <Home/> : <Setting/>
-              }
-              </TabBar.Item>
+              ></TabBar.Item>
             ))
           }
-          </TabBar>
-      </div>
+        </TabBar>
+      </HashRouter>
     );
   }
 }
