@@ -14,9 +14,15 @@ export const updateData = data => request({
 })
 
 // 获取城市列表
-
 export const cityData = data => request({
   url: 'citys',
+  method: 'get',
+  params: data
+})
+
+// 更新状态
+export const updateStatus = (id, data) => request({
+  url: `updateStatus/${id}`,
   method: 'get',
   params: data
 })

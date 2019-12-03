@@ -1,0 +1,37 @@
+{
+  "id": "1543722",
+  "name": "chwl",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11488168",
+      "name": "set",
+      "font_class": "set",
+      "unicode": "e76c",
+      "unicode_decimal": 59244
+    },
+    {
+      "icon_id": "11488336",
+      "name": "set",
+      "font_class": "set-active",
+      "unicode": "e78e",
+      "unicode_decimal": 59278
+    },
+    {
+      "icon_id": "11674090",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e7a7",
+      "unicode_decimal": 59303
+    },
+    {
+      "icon_id": "11674925",
+      "name": "home-fill",
+      "font_class": "home-active",
+      "unicode": "e7ae",
+      "unicode_decimal": 59310
+    }
+  ]
+}

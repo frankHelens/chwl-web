@@ -70,12 +70,6 @@ export default class Setting extends Component {
     const { cityList, city } = this.state
     return (
       <div>
-        <NavBar
-          mode="light"
-          icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.go(-1)}>
-          Setting
-        </NavBar>
         <WhiteSpace/>
         <WhiteSpace/>
         <WingBlank>
