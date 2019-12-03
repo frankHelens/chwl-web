@@ -113,7 +113,7 @@ export default class Setting extends Component {
             cols={1}
             onChange={this.onChangePageNum}
           >
-            <List.Item arrow="horizontal">站点</List.Item>
+            <List.Item arrow="horizontal">更新数量</List.Item>
           </Picker>
           <WhiteSpace/>
           <WhiteSpace/>
