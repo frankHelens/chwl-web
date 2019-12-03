@@ -1,8 +1,8 @@
 
-import { Toast, List, Card, WhiteSpace, WingBlank, Switch } from 'antd-mobile';
+import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker } from 'antd-mobile';
 import React, {Component} from 'react';
 import axios from 'axios'
-import { getDataList, updateStatus } from '@/utils/api'
+import { getDataList, updateStatus, cityData } from '@/utils/api'
 import './common.scss'
 
 Toast.config({ mask: false })
@@ -14,11 +14,12 @@ export default class Home extends Component {
       visible: false,
       selected: '',
       dataList: [],
-      city: ''
+      cityList: [],
+      city: []
     }
   }
   componentDidMount () {
-    this.getData()
+    this.getRelation()
   }
   onSelect = (opt) => {
     const { value } = opt.props
@@ -37,10 +38,22 @@ export default class Home extends Component {
   };
   async getData () {
     const data = await getDataList({
-      city: this.state.city
+      city: this.state.city[0]
     })
     this.setState({
       dataList: data
+    })
+  }
+  getRelation = async () => {
+    const data = await cityData()
+    this.setState({
+      cityList: [{
+        label: '全部',
+        value: ''
+      }, ...data],
+      city: ['']
+    }, () => {
+      this.getData()
     })
   }
   handleDelete (id) {
@@ -65,11 +78,27 @@ export default class Home extends Component {
       this.getData()
     })
   }
+  onChangeCity = (value) => {
+    this.setState({
+      city: value
+    }, () => {
+      this.getData()
+    })
+  }
   render () {  
-    const { dataList } = this.state
+    const { cityList, city, dataList } = this.state
     return (
       <div className="container">
         {/* <SearchBar placeholder="Search" maxLength={8} /> */}
+        <div className="tool-bar">
+          <Picker
+            data={cityList}
+            value={city}
+            cols={1}
+            onChange={this.onChangeCity}>
+            <List.Item arrow="horizontal">站点</List.Item>
+          </Picker>
+        </div>
         <WhiteSpace />
         <WingBlank>
           {
