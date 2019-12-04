@@ -1,5 +1,5 @@
 
-import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker } from 'antd-mobile';
+import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker, SearchBar } from 'antd-mobile';
 import React, {Component} from 'react';
 import axios from 'axios'
 import { getDataList, updateStatus, cityData } from '@/utils/api'
@@ -15,7 +15,8 @@ export default class Home extends Component {
       selected: '',
       dataList: [],
       cityList: [],
-      city: []
+      city: [],
+      searchValue: ''
     }
   }
   componentDidMount () {
@@ -37,8 +38,10 @@ export default class Home extends Component {
     });
   };
   async getData () {
+    const { city, searchValue } = this.state
     const data = await getDataList({
-      city: this.state.city[0]
+      city: city[0],
+      value: searchValue
     })
     this.setState({
       dataList: data
@@ -85,11 +88,18 @@ export default class Home extends Component {
       this.getData()
     })
   }
+  // 搜索
+  onSearch = (value) => {
+    this.setState({
+      searchValue: value
+    }, () => {
+      this.getData()
+    })
+  }
   render () {  
     const { cityList, city, dataList } = this.state
     return (
       <div className="container">
-        {/* <SearchBar placeholder="Search" maxLength={8} /> */}
         <div className="tool-bar">
           <Picker
             data={cityList}
@@ -98,11 +108,12 @@ export default class Home extends Component {
             onChange={this.onChangeCity}>
             <List.Item arrow="horizontal">站点</List.Item>
           </Picker>
+          <SearchBar placeholder="Search" maxLength={8} onSubmit={this.onSearch}/>
         </div>
         <WhiteSpace />
         <WingBlank>
           {
-            dataList.map((item) => (
+            dataList.length ? dataList.map((item) => (
               <Card style={{marginBottom: '15px'}} key={item.id}>
                 <Card.Header
                   title={item.city}
@@ -124,7 +135,7 @@ export default class Home extends Component {
                 }>
                 </Card.Footer>
               </Card>
-            ))
+            )) : <p>暂无数据</p>
           }
         </WingBlank>
       </div>
