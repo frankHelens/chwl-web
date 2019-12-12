@@ -1,5 +1,5 @@
 
-import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker, SearchBar } from 'antd-mobile';
+import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker, SearchBar, Button } from 'antd-mobile';
 import React, {Component} from 'react';
 import axios from 'axios'
 import { getDataList, updateStatus, cityData } from '@/utils/api'
@@ -98,6 +98,7 @@ export default class Home extends Component {
   }
   render () {  
     const { cityList, city, dataList } = this.state
+    console.log(dataList)
     return (
       <div className="container">
         <div className="tool-bar">
@@ -125,13 +126,19 @@ export default class Home extends Component {
                   {item.title}
                 </Card.Body>
                 <Card.Footer content={
-                  <List.Item
-                    extra={
-                      <Switch
-                        checked={item.status === '1'}
-                        onChange={(val) => this.handleChangeStatus(val, item)}
-                      />}
-                  >启动发送状态</List.Item>
+                  <div>
+                    <List.Item
+                      extra={
+                        <Switch
+                          checked={item.status === '1'}
+                          onChange={(val) => this.handleChangeStatus(val, item)}
+                        />}
+                    >启动发送状态</List.Item>
+                    <div style={{textAlign: 'right'}}>
+                      <Button size="small" inline type='primary'
+                      onClick={() => window.location.href = item.origin_image}>查看图片</Button>
+                    </div>
+                  </div>
                 }>
                 </Card.Footer>
               </Card>
