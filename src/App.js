@@ -21,6 +21,20 @@ export default class App extends Component {
       url: '/setting'
     }]
   }
+  componentDidMount () {
+    const login = {
+      type: 'login'
+    }
+    const url = 'ws://localhost:8888/websocket'
+    const client = new WebSocket(url)
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+      client.send(JSON.stringify(login))
+    }
+    client.onmessage = (message) => {
+      console.log(message);
+    };
+  }
   render() {
     const { tabList } = this.state
     return (
