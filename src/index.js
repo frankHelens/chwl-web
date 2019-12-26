@@ -6,9 +6,26 @@ import {HashRouter as Router} from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 import '@/assets/iconfont.css'
 
+// const url = 'ws://localhost:8888/websocket'
+// const ws = new WebSocket(url)
+
+// componentDidMount () {
+//   const login = {
+//     type: 'login'
+//   }
+  
+//   client.onopen = () => {
+//     console.log('WebSocket Client Connected');
+//     client.send(JSON.stringify(login))
+//   }
+//   client.onmessage = (message) => {
+//     console.log(message);
+//   };
+// }
+
 ReactDOM.render(
   <Router>
-    <App/>
+    <App />
   </Router>
   , document.getElementById('root'));
 

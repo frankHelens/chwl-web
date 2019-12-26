@@ -1,5 +1,5 @@
 
-import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker, SearchBar, Button } from 'antd-mobile';
+import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker, SearchBar, Button, Tag } from 'antd-mobile';
 import React, {Component} from 'react';
 import axios from 'axios'
 import { getDataList, updateStatus, cityData } from '@/utils/api'
@@ -118,6 +118,12 @@ export default class Home extends Component {
               <Card style={{marginBottom: '15px'}} key={item.id}>
                 <Card.Header
                   title={item.city}
+                  extra={(
+                    <>
+                      {item.begin_time && <Tag className="warning">快结束</Tag>}
+                      {item.end_time && <Tag className="danger">待开抢</Tag>}
+                    </>
+                    )}
                 />
                 <Card.Body>
                   <img style={{

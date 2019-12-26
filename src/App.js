@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { TabBar } from 'antd-mobile';
 
 import './App.css';
+import Login from './pages/Login'
 import Home from './pages/Home'
-// import CreateForm from './pages/CreateForm'
 import Setting from './pages/Setting'
 
 
@@ -21,25 +21,12 @@ export default class App extends Component {
       url: '/setting'
     }]
   }
-  componentDidMount () {
-    const login = {
-      type: 'login'
-    }
-    const url = 'ws://localhost:8888/websocket'
-    const client = new WebSocket(url)
-    client.onopen = () => {
-      console.log('WebSocket Client Connected');
-      client.send(JSON.stringify(login))
-    }
-    client.onmessage = (message) => {
-      console.log(message);
-    };
-  }
   render() {
     const { tabList } = this.state
     return (
       <HashRouter>
         <Switch>
+          <Route exact path="/login" component={Login} />
           <Route exact path="/" component={Home} />
           <Route exact path="/setting" component={Setting} />
         </Switch>
