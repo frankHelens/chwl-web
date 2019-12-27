@@ -3,9 +3,49 @@ import { Toast, List, Card, WhiteSpace, WingBlank, Switch, Picker, SearchBar, Bu
 import React, {Component} from 'react';
 import axios from 'axios'
 import { getDataList, updateStatus, cityData } from '@/utils/api'
+import moment from 'moment'
 import './common.scss'
 
 Toast.config({ mask: false })
+
+// 时间倒计时组件
+class CountDown extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      time: props.time
+    }
+  }
+  componentDidMount () {
+    this.countDown(this.state.time)
+  }
+  countDown = () => {
+    let { time } = this.state
+    time--
+    this.setState({
+      time
+    }, () => {
+      if (time) {
+        setTimeout(() => {
+          this.countDown()
+        }, 1000)
+      }
+    })
+  }
+  formatTime = (time) => {
+    const t = moment.duration(time, 's')
+    const hours = t.get('hours')
+    const minutes = t.get('minutes')
+    const seconds = t.get('seconds');
+    return `${hours}时${minutes}分${seconds}秒`
+  }
+  render () {
+    const { time } = this.state
+    const { name, text } = this.props
+    const value = time > 86400 ? text : this.formatTime(time)
+    return <Tag className={name}>{value}</Tag>
+  }
+}
 
 export default class Home extends Component {
   constructor(props) {
@@ -98,7 +138,6 @@ export default class Home extends Component {
   }
   render () {  
     const { cityList, city, dataList } = this.state
-    console.log(dataList)
     return (
       <div className="container">
         <div className="tool-bar">
@@ -120,8 +159,18 @@ export default class Home extends Component {
                   title={item.city}
                   extra={(
                     <>
-                      {item.begin_time && <Tag className="warning">待开抢</Tag>}
-                      {item.end_time && <Tag className="danger">快结束</Tag>}
+                      {
+                        item.end_time ? <CountDown
+                          text="快结束"
+                          name="danger"
+                          time={item.end_time}/> : ''
+                      }
+                      {
+                        item.begin_time ? <CountDown
+                          text="待开抢"
+                          name="warning"
+                          time={item.begin_time} /> : ''
+                      }
                     </>
                     )}
                 />
