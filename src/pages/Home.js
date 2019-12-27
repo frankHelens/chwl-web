@@ -120,8 +120,8 @@ export default class Home extends Component {
                   title={item.city}
                   extra={(
                     <>
-                      {item.begin_time && <Tag className="warning">快结束</Tag>}
-                      {item.end_time && <Tag className="danger">待开抢</Tag>}
+                      {item.begin_time && <Tag className="warning">待开抢</Tag>}
+                      {item.end_time && <Tag className="danger">快结束</Tag>}
                     </>
                     )}
                 />
