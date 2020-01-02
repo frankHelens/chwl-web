@@ -9,8 +9,6 @@ import axios from 'axios'
 // import router from '@/router'
 import { Toast } from 'antd-mobile'
 
-console.log(process.env.BASE_URL)
-
 const service = axios.create({
   // 设置超时时间
   // timeout: 60000,
