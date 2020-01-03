@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 
 import { Button, Toast, WingBlank, WhiteSpace } from 'antd-mobile';
+import { postData } from '@/utils/common'
 
 Toast.config({ mask: false, duration: 0 })
 
@@ -19,39 +20,24 @@ export default class LoginBot extends Component {
       ws
     })
   }
-  postData = (type = 'init', data = {}) => {
-    const res = {
-      header: {
-        client: 1,
-        sign: 1
-      },
-      body: {
-        type,
-        data
-      }
-    }
-    return encodeURIComponent(JSON.stringify(res))
-  }
   getData = (msg) => {
     const res = msg ? JSON.parse(decodeURIComponent(msg.data)) : {}
-    const { code, data } = res.body.data
+    const { code, message } = res.body
     if (code === 0) {
-      return {
-        type: res.body.type,
-        data
-      }
+      return res.body
     } else {
-      Toast.fail(data.message)
+      Toast.fail(message)
     }
   }
   onopen = () => {
     Toast.loading('连接中')
-    const init = this.postData()
+    const init = postData()
     this.state.ws.send(init)
   }
 
   onmessage = (msg) => {
     const res = this.getData(msg)
+    console.log('res', res)
     if (res.type === 'init') {
       Toast.success('连接成功')
     }
@@ -60,7 +46,7 @@ export default class LoginBot extends Component {
     }
   }
   loginBot = () => {
-    const loginData = this.postData('loginBot', {})
+    const loginData = postData('loginBot', {})
     this.state.ws.send(loginData)
   }
   render() {
