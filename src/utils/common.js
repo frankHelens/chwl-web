@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { Toast } from 'antd-mobile'
 export const postData = ({
   type,
   data,
@@ -27,4 +28,14 @@ export const postData = ({
     }
   }
   return encodeURIComponent(JSON.stringify(res))
+}
+
+export const getData = (msg) => {
+  const res = msg ? JSON.parse(decodeURIComponent(msg.data)) : {}
+  const { code, message } = res.body
+  if (code === 0) {
+    return res.body
+  } else {
+    Toast.fail(message)
+  }
 }
