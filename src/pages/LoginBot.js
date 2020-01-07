@@ -14,7 +14,7 @@ export default class LoginBot extends Component {
     qrcode: ''
   }
   componentWillMount () {
-    const url = 'ws://localhost:8888'
+    const url = 'ws://localhost:8888/ws'
     const ws = new WebSocket(url)
     console.log('ws', ws)
     ws.onopen = this.onopen
