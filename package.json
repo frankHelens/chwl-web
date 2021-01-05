@@ -5,7 +5,7 @@
   "proxy": "http://120.79.236.237:3000",
   "dependencies": {
     "antd-mobile": "^2.3.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
